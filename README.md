@@ -30,9 +30,9 @@ python examples/check_evidence.py
 
 已补：畸形网址、嵌入凭据和异常端口会被拒绝；官方域名和职位路径更严格；结果明确写 URL_STRUCTURE_ONLY 和 content_verified=false。
 
-## 仍然缺什么
+## 当前限制
 
-不访问网页，不验证实际职位、预算或真实性；文本规则可能误报。状态检查函数只有被调用方接入才会生效，不是不可绕过的安全机制。
+本地快照不证明实时网页和内容真实性；状态仅 READY_FOR_HUMAN_REVIEW，不自动升级为已核实或已联系。
 
 ## 验证与使用注意
 
@@ -49,3 +49,15 @@ python -m unittest discover -s tests -v
 由 miaorrr8888-cloud 在 AI 辅助下积累和维护，来源与边界见 [PROVENANCE.md](PROVENANCE.md)，许可见 [LICENSE](LICENSE)。
 
 [全部独立技能与阶段性工作记录](https://github.com/miaorrr8888-cloud/agent-skills-worklog)
+
+## 第二轮：内容证据补充
+
+新增本地快照内容检查，明确摘录是否存在、快照是否过期以及快照哈希，补上仅检查网址之后的证据步骤。
+
+在仓库根目录运行：
+
+```sh
+python scripts/review_snapshot.py examples/snapshot.json
+```
+
+新增工具的输入字段见脚本参数与 examples/。快照示例采用固定日期，过期后正常返回 HOLD；需要检查新采集的页面时填写真实带时区的采集时间，不要改日期伪装新证据。
