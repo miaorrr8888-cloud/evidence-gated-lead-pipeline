@@ -1,32 +1,51 @@
-# evidence-gated-lead-pipeline
+# 线索证据与状态闸门
 
-> Packaged by the WorkBuddy History Audit (2026-10-14). Source copied verbatim from the
-> original location; **no modifications made to the original project**.
+`evidence-gated-lead-pipeline` · 独立技能仓库 · MIT
 
-## 功能介绍
-构建「自动采集线索 / 商机 / 客户名单」类流水线时使用，用确定性证据闸门与代码级自动化天花板，防止采集 Worker 产出的假证据、假触达路径与未经授权的对外动作流入下游。适用于多 Agent 的线索发现、BD 名单、竞品情报、市场信号采集等场景。触发词：线索库、客户名单、BD 名单、市场雷达、lead pipeline、证据核验、证据闸门。
+适合：构建获客流水线、研究助手和数据整理工具的开发者
 
-## 起源与许可
-- 类型: 用户原创 Skill (agent_created)
-- 许可: MIT (见 LICENSE)
-- 是否含密钥/Token: 否 (已通过审计扫描)
+## 解决什么问题
 
-## 目录内容
-- `SKILL.md` / `README.md` — 技能定义与使用说明
-- 脚本与测试 — 见各子目录
-- `LICENSE` — MIT
+避免类目页冒充具体职位、未知被写成已核实、准备联系被写成已联系。
 
-## 发布前检查清单
-- [x] 无硬编码密钥 / Cookie / Token
-- [x] 依赖清楚 (stdlib-only 或显式声明)
-- [x] 含使用说明
-- [ ] 作者补充中文/英文双语 README
-- [ ] 补充 CI 测试 (如适用)
+## 快速开始
 
-## 独立仓库
+Python 3.10+，标准库。
 
-本仓库只包含 evidence-gated-lead-pipeline 一个技能。
-源码目录、SKILL.md、许可和相关测试均可独立取得，不依赖其他技能仓库。
-工作记录与其他技能入口：[agent-skills-worklog](https://github.com/miaorrr8888-cloud/agent-skills-worklog)。
+在本仓库根目录运行：
 
-离线验证：`python -m unittest discover -s tests -v`。
+```sh
+python examples/check_evidence.py
+```
+
+## 输入与输出
+
+**输入**：evidence_url、channel 和 acquisition_path；示例解释 True/False/None 三态。
+
+**输出**：证据类别、结构检查状态、必要的路径降级；人工回执和业务验证需另外记录。
+
+## 本次完善
+
+原有缺口：URL 边界处理不足，调用方容易把 URL 结构检查当内容核验。
+
+已补：畸形网址、嵌入凭据和异常端口会被拒绝；官方域名和职位路径更严格；结果明确写 URL_STRUCTURE_ONLY 和 content_verified=false。
+
+## 仍然缺什么
+
+不访问网页，不验证实际职位、预算或真实性；文本规则可能误报。状态检查函数只有被调用方接入才会生效，不是不可绕过的安全机制。
+
+## 验证与使用注意
+
+```sh
+python -m unittest discover -s tests -v
+```
+
+测试覆盖被断言的离线行为，不等于真实平台、生产模型或业务效果验证。
+
+示例数据和图片均为合成演示，不是真实客户、交易、销量或模型成绩。不要提交真实凭据和私有输入。
+
+## 来源与工作记录
+
+由 miaorrr8888-cloud 在 AI 辅助下积累和维护，来源与边界见 [PROVENANCE.md](PROVENANCE.md)，许可见 [LICENSE](LICENSE)。
+
+[全部独立技能与阶段性工作记录](https://github.com/miaorrr8888-cloud/agent-skills-worklog)

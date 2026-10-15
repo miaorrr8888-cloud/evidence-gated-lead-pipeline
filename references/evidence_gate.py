@@ -26,7 +26,7 @@ LEGACY_HOSTS = {
 
 # ---- 各平台「具体条目页」的路径格式 ----
 # Upwork 职位帖：/freelance-jobs/apply/<slug>_~<数字ID>
-UPWORK_JOB_RE = re.compile(r"^/freelance-jobs/apply/.+_~\d+")
+UPWORK_JOB_RE = re.compile(r"^/freelance-jobs/apply/[^/]+_~\d+/?$")
 
 # ---- 各渠道「官方一手域」正则 ----
 # 关键设计：允许「单级前缀 + 区域 TLD」（shopify.co.nz / nz.shopify.com 是真实域名），
@@ -54,8 +54,13 @@ def classify_evidence(url, channel):
       ok_for_job_post = False 结构不合法，必须降级触达路径
       ok_for_job_post = None  该渠道不适用（第三方来源，不强制降级）
     """
-    p = urlparse(str(url))
-    host = p.netloc.lower()
+    try:
+        p = urlparse(str(url))
+        host = p.hostname.lower() if p.hostname else ''
+        if not host or p.username or p.password or p.port not in (None,443):
+            return ('INVALID_URL',False,'URL host, credentials or port invalid')
+    except ValueError:
+        return ('INVALID_URL',False,'Malformed URL')
 
     if host in LEGACY_HOSTS:
         return ("DEAD_DOMAIN", False,
@@ -64,7 +69,7 @@ def classify_evidence(url, channel):
         return ("INSECURE", False, "证据链接非 https")
 
     if channel == "Upwork":
-        if host == "www.upwork.com" and UPWORK_JOB_RE.match(p.path):
+        if host in {"upwork.com","www.upwork.com"} and UPWORK_JOB_RE.fullmatch(p.path):
             return ("JOB_POST", True, "")
         if PLATFORM_HOST_RE["Upwork"].match(host):
             return ("CATEGORY_PAGE", False,
@@ -98,6 +103,8 @@ def apply_gate(lead):
     kind, ok_for_post, note = classify_evidence(
         lead.get("evidence_url", ""), lead.get("channel", ""))
     lead["evidence_kind"] = kind
+    lead["validation_scope"] = "URL_STRUCTURE_ONLY"
+    lead["content_verified"] = False
 
     if ok_for_post is True:
         lead["evidence_url_status"] = "OK"
