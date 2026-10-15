@@ -1,5 +1,7 @@
 # 线索证据与状态闸门
 
+[新手逐步使用指南](USER_GUIDE.md) · [用途与适用人群介绍](INTRODUCTION.md)
+
 `evidence-gated-lead-pipeline` · 独立技能仓库 · MIT
 
 适合：构建获客流水线、研究助手和数据整理工具的开发者
