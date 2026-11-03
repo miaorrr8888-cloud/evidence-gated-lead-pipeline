@@ -1,9 +1,12 @@
 ---
 name: evidence-gated-lead-pipeline
-description: 对线索证据 URL、材料文案和状态推进做离线检查，区分未知、结构无效与已核实。
+description: 整理客户线索，核对原文摘录、网页快照和时效；证据不足时保留待核实，不自动联系客户。
 license: MIT
----
+version: "1.1.0"
+display_name: "客户线索证据核查"
+agent_created: true
 
+---
 # 线索证据闸门
 
 `references/evidence_gate.py` 提供 `classify_evidence(url, channel)` 与 `apply_gate(lead)`。其结果只说明 URL 结构是否符合内置规则；页面存在、内容匹配、项目开放与联系权限仍需现场核验。规则可能随平台变化。

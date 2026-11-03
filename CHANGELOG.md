@@ -1,5 +1,21 @@
 # 更新记录
 
+## 2026-11-03 · v1.1.0 发布规范整改
+
+### 内容补齐
+
+- 新增 `icon.svg`（技能图标）。
+
+### 规范整改
+
+- `name` 改为 ASCII slug（= 目录名），中文名保留在 `display_name`。与已发布仓库的写法对齐，消除本地与远端的命名漂移。
+- `LICENSE` 替换为完整 MIT 全文。旧版免责条款被截断，GitHub 因此识别为 `NOASSERTION`（等于没声明许可证）。
+- 补充 `version` 与 `agent_created` 字段，满足技能市场打包校验。
+
+### 测试
+
+- `python -m unittest discover -s tests` 全部通过（详见发布审计报告）。
+
 ## 2026-10-15 · 使用者完善版
 
 畸形网址、嵌入凭据和异常端口会被拒绝；官方域名和职位路径更严格；结果明确写 URL_STRUCTURE_ONLY 和 content_verified=false。

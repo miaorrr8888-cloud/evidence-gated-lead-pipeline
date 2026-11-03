@@ -63,3 +63,12 @@ python scripts/review_snapshot.py examples/snapshot.json
 ```
 
 新增工具的输入字段见脚本参数与 examples/。快照示例采用固定日期，过期后正常返回 HOLD；需要检查新采集的页面时填写真实带时区的采集时间，不要改日期伪装新证据。
+
+## 运行环境
+
+| 项 | 状态 |
+|---|---|
+| Windows 11 + Python 3.12 / 3.13 | ✅ 实测通过 |
+| Linux / macOS | ⚠️ **未实测**。代码用 `pathlib`，无硬编码分隔符，理论上可跑，但测试只在 Windows 跑过，不声称支持 |
+
+诚实标注：没实跑过的平台，不要在对外文案里写「已支持」。
