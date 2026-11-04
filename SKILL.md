@@ -2,7 +2,7 @@
 name: evidence-gated-lead-pipeline
 description: 整理客户线索，核对原文摘录、网页快照和时效；证据不足时保留待核实，不自动联系客户。
 license: MIT
-version: "1.1.0"
+version: 1.1.1
 display_name: "客户线索证据核查"
 agent_created: true
 
